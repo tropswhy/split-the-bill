@@ -5,6 +5,7 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import Main from './Main.vue'
 import App from './App.vue'
 
 const vuetify = createVuetify({
@@ -21,8 +22,8 @@ const routes = [
     },
 ]
 const router = createRouter({
-    history: createWebHistory,
+    history: createWebHistory(),
     routes,
 })
 
-createApp(App).use(vuetify).use(pinia).use(router).mount('#app')
+createApp(App).use(router).use(vuetify).use(pinia).mount('#app')
