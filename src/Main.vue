@@ -5,6 +5,7 @@ import Help from './icons/Help.vue'
 import Arrow from './icons/Arrow.vue'
 import Plus from './icons/Plus.vue'
 import Input from './components/ui/Input.vue'
+import Button from './components/ui/Button.vue'
 
 const value = ref('')
 
@@ -45,13 +46,10 @@ const clickHandler = () => {
                         v-model="value"
                         v-on:keydown.enter="clickHandler" />
                 </v-responsive>
-                <v-btn
-                    rounded
-                    color="primary"
-                    @click="clickHandler">
-                    <Plus/>
+                <Button @click="clickHandler">
+                    <Plus />
                     Нажмите, чтобы добавить человека
-                </v-btn>
+                </Button>
                 <!--   <v-divider
                         class="mt-5"
                         thickness /> -->
@@ -76,15 +74,13 @@ const clickHandler = () => {
                 </v-list>
             </v-card>
         </v-card>
-        <v-btn
+        <Button
             href="/products"
             class="mx-auto mt-5"
-            width="350"
-            rounded
-            color="primary">
-<Arrow/>
+            width="350">
+            <Arrow />
             Дальше
-        </v-btn>
+        </Button>
     </v-app>
 </template>
 
