@@ -4,6 +4,7 @@ import { usePeopleStore } from './stores/PeopleStore.js'
 import Help from './icons/Help.vue'
 import Arrow from './icons/Arrow.vue'
 import Plus from './icons/Plus.vue'
+import Input from './components/ui/Input.vue'
 
 const value = ref('')
 
@@ -40,9 +41,7 @@ const clickHandler = () => {
                 <v-responsive
                     class="mx-auto"
                     width="600">
-                    <v-text-field
-                        label="Введите имя"
-                        variant="solo-filled"
+                    <Input
                         v-model="value"
                         v-on:keydown.enter="clickHandler" />
                 </v-responsive>
