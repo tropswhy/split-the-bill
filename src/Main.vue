@@ -1,11 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { usePeopleStore } from './stores/PeopleStore.js'
-import Help from './icons/Help.vue'
-import Arrow from './icons/Arrow.vue'
-import Plus from './icons/Plus.vue'
 import Input from './components/ui/Input.vue'
 import Button from './components/ui/Button.vue'
+import AppBar from './components/ui/AppBar.vue'
 
 const value = ref('')
 
@@ -15,23 +13,21 @@ const clickHandler = () => {
     PeopleStore.add(value.value)
     value.value = ''
 }
+
+const nextPage = () => {
+    if (PeopleStore.list.length > 1) {
+        $router.push({
+            name: 'Products',
+        })
+    } else {
+        alert('Добавьте хотя бы двух человек')
+    }
+}
 </script>
 
 <template>
     <v-app>
-        <v-app-bar
-            app
-            color="primary">
-            <v-app-bar-title>
-                <h4 class="text-h4 white--text text-center">
-                    Делим счёт в кафе
-                </h4>
-            </v-app-bar-title>
-            <v-btn>
-                <Help />
-            </v-btn>
-        </v-app-bar>
-        <h1 class="text-center my-5">Делим счёт в кафе</h1>
+        <AppBar/>
         <v-card
             color="blue-lighten-5"
             class="mx-auto"
@@ -43,16 +39,16 @@ const clickHandler = () => {
                     class="mx-auto"
                     width="600">
                     <Input
+                        label="Введите имя"
                         v-model="value"
                         v-on:keydown.enter="clickHandler" />
                 </v-responsive>
-                <Button @click="clickHandler">
-                    <Plus />
+                <Button
+                    @click="clickHandler"
+                    prepend-icon="mdi-plus-circle-outline">
+                    <v-icon v-slot:prepend></v-icon>
                     Нажмите, чтобы добавить человека
                 </Button>
-                <!--   <v-divider
-                        class="mt-5"
-                        thickness /> -->
             </v-container>
             <v-card>
                 <v-list
@@ -67,6 +63,16 @@ const clickHandler = () => {
                             {{ item.name[0] }}
                         </v-avatar>
                         {{ item.name }}
+                        <template v-slot:append>
+                            <v-btn
+                                fab="true"
+                                small
+                                density="default"
+                                color="primary"
+                                icon="mdi-minus"
+                                @click="PeopleStore.delete(item.id)">
+                            </v-btn>
+                        </template>
                         <v-divider
                             class="my-2"
                             thickness />
@@ -75,18 +81,27 @@ const clickHandler = () => {
             </v-card>
         </v-card>
         <Button
-            href="/products"
+            v-if="PeopleStore.list.length > 1"
+            @click.prevent="$router.push(`/products`)"
             class="mx-auto mt-5"
-            width="350">
-            <Arrow />
-            Дальше
+            width="350"
+            prepend-icon="mdi-arrow-right-thin-circle-outline"
+            >
+            <!-- <v-icon></v-icon> -->
+            Продолжить
         </Button>
+        <v-container v-else>
+            <v-alert
+                color="error"
+                width="350"
+                border="bottom"
+                border-color="error"
+                class="text-center mx-auto mt-5"
+                text="Добавьте хотя бы двух человек, чтобы продолжить"
+                variant="tonal" />
+        </v-container>
+        >
     </v-app>
 </template>
 
-<style>
-.CloseIcon {
-    display: flex;
-    justify-content: end;
-}
-</style>
+<style></style>
