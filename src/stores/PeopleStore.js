@@ -22,5 +22,17 @@ export const usePeopleStore = defineStore('PeopleStore', {
                 )
             }
         },
+        findById(id) {
+            let ind = -1
+            this.list.map((item, index) =>
+            item.id = id ? (ind = index) : (ind = ind)
+            )
+            if (ind == -1) return undefined;
+            return this.list[ind]
+        },
+
+        delete(id) {
+            this.list = this.list.filter((item) => item.id !==id)
+        },
     },
 })

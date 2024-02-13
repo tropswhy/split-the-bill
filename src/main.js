@@ -6,11 +6,14 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import Main from './Main.vue'
+import Products from './components/Products.vue'
 import App from './App.vue'
+import '@mdi/font/css/materialdesignicons.css'
 
 const vuetify = createVuetify({
     components,
     directives,
+    iconfont: 'mdi',
 })
 
 const pinia = createPinia()
@@ -20,6 +23,10 @@ const routes = [
         path: '/',
         component: Main,
     },
+    {
+        path: '/products',
+        component: Products,
+    }
 ]
 const router = createRouter({
     history: createWebHistory(),
