@@ -1,5 +1,5 @@
 <template>
     <v-text-field
-        label="Введите имя"
+        clearable
         variant="solo-filled" />
 </template>
