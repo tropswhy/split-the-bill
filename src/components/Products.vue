@@ -1,13 +1,17 @@
 <script setup>
 import { ref } from 'vue'
+
 import { useProductsStore } from '../stores/ProductsStore.js'
+
 import AppBar from '../components/ui/AppBar.vue'
 import Input from './ui/Input.vue'
 import Button from './ui/Button.vue'
 
 const value = ref('')
 
+
 const Products = useProductsStore()
+
 
 const clickHandler = () => {
     PeopleStore.add(value.value)
@@ -55,3 +59,4 @@ const nextPage = () => {
 </template>
 
 <style lang="scss" scoped></style>
+
