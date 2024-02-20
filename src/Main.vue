@@ -14,15 +14,6 @@ const clickHandler = () => {
     value.value = ''
 }
 
-const nextPage = () => {
-    if (PeopleStore.list.length > 1) {
-        $router.push({
-            name: 'Products',
-        })
-    } else {
-        alert('Добавьте хотя бы двух человек')
-    }
-}
 </script>
 
 <template>
@@ -100,7 +91,6 @@ const nextPage = () => {
                 text="Добавьте хотя бы двух человек, чтобы продолжить"
                 variant="tonal" />
         </v-container>
-        >
     </v-app>
 </template>
 
