@@ -7,20 +7,21 @@ import AppBar from '../components/ui/AppBar.vue'
 import Input from './ui/Input.vue'
 import Button from './ui/Button.vue'
 
-const value = ref('')
+const name = ref('')
+const price = ref('')
 
 const ProductsStore = useProductsStore()
 
 const clickHandler = () => {
-    ProductsStore.addProd(value.value)
-    value.value = ''
+    ProductsStore.addProd(name.value, price.value)
+    name.value = ''
+    price.value = ''
 }
-
 </script>
 
 <template>
     <v-app>
-        <AppBar/>
+        <AppBar />
         <v-card
             color="blue-lighten-5"
             class="mx-auto"
@@ -33,7 +34,13 @@ const clickHandler = () => {
                     width="600">
                     <Input
                         label="Введите позицию"
-                        v-model="value"
+                        v-model="name"
+                        v-on:keydown.enter="clickHandler" />
+                    <Input
+                        type="number"
+                        v-model="price"
+                        label="Введите цену"
+                        prefix="₽"
                         v-on:keydown.enter="clickHandler" />
                 </v-responsive>
                 <Button
@@ -56,14 +63,26 @@ const clickHandler = () => {
                             {{ item.name[0] }}
                         </v-avatar>
                         {{ item.name }}
+                        <!-- <v-divider vertical inset class="mx-2" thickness/> -->
+                        {{ item.price + ' рублей' }}
+                        <template v-slot:append>
+                            <v-btn
+                                fab="true"
+                                small
+                                density="default"
+                                color="primary"
+                                icon="mdi-minus"
+                                @click="ProductsStore.delete(item.id)">
+                            </v-btn>
+                        </template>
+                        <v-divider
+                            class="my-2"
+                            thickness />
                     </v-list-item>
                 </v-list>
             </v-card>
         </v-card>
-
-            
     </v-app>
 </template>
 
 <style lang="scss" scoped></style>
-
