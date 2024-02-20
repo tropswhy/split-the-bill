@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+
 import { useProductsStore } from '../stores/ProductsStore.js'
+
 import AppBar from '../components/ui/AppBar.vue'
 import Input from './ui/Input.vue'
 import Button from './ui/Button.vue'
@@ -54,26 +56,14 @@ const clickHandler = () => {
                             {{ item.name[0] }}
                         </v-avatar>
                         {{ item.name }}
-                        <!-- <template v-slot:append>
-                            <v-btn
-                                fab="true"
-                                small
-                                density="default"
-                                color="primary"
-                                icon="mdi-minus"
-                                @click="PeopleStore.delete(item.id)">
-                            </v-btn>
-                        </template>
-                        <v-divider
-                            class="my-2"
-                            thickness /> -->
                     </v-list-item>
                 </v-list>
             </v-card>
-            </v-card>
+        </v-card>
 
             
     </v-app>
 </template>
 
 <style lang="scss" scoped></style>
+
