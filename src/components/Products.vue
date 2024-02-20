@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 import { useProductsStore } from '../stores/ProductsStore.js'
+import { usePeopleStore } from '../stores/PeopleStore.js'
 
 import AppBar from '../components/ui/AppBar.vue'
 import Input from './ui/Input.vue'
@@ -11,6 +12,7 @@ const name = ref('')
 const price = ref('')
 
 const ProductsStore = useProductsStore()
+const PeopleStore = usePeopleStore()
 
 const clickHandler = () => {
     ProductsStore.addProd(name.value, price.value)
@@ -57,11 +59,11 @@ const clickHandler = () => {
                     <v-list-item
                         v-for="item in ProductsStore.list"
                         :key="item.id">
-                        <v-avatar
+                        <!-- <v-avatar
                             color="primary"
                             class="mr-4">
                             {{ item.name[0] }}
-                        </v-avatar>
+                        </v-avatar> -->
                         {{ item.name }}
                         <!-- <v-divider vertical inset class="mx-2" thickness/> -->
                         {{ item.price + ' рублей' }}
@@ -75,12 +77,37 @@ const clickHandler = () => {
                                 @click="ProductsStore.delete(item.id)">
                             </v-btn>
                         </template>
+                        <v-card color="blue-lighten-5">
+                            <v-select
+                                :items="PeopleStore.list"
+                                item-title="name"
+                                :key="item.id"
+                                density="comfortable"
+                                label="Плательщик" />
+                            Выберите тех, кто ел
+                            <v-layout d-flex align-center justify-center row fill-height>
+                                    <v-checkbox
+                                        :items="PeopleStore.list"
+                                        item-title="name"
+                                        :key="item.id"
+                                        v-for="item in PeopleStore.list"
+                                        density="comfortable"
+                                        :label="`${item.name}`" 
+                                    />
+                            </v-layout>
+                        </v-card>
                         <v-divider
                             class="my-2"
                             thickness />
                     </v-list-item>
                 </v-list>
             </v-card>
+        </v-card>
+        <v-card
+            color="blue-lighten-5"
+            class="mx-auto my-5 text-center"
+            width="300">
+            Промежуточный итог: {{ ProductsStore.sum() }}
         </v-card>
     </v-app>
 </template>
