@@ -9,24 +9,13 @@ import Button from './ui/Button.vue'
 
 const value = ref('')
 
-
-const Products = useProductsStore()
-
+const ProductsStore = useProductsStore()
 
 const clickHandler = () => {
-    PeopleStore.add(value.value)
+    ProductsStore.addProd(value.value)
     value.value = ''
 }
 
-const nextPage = () => {
-    if (PeopleStore.list.length > 1) {
-        $router.push({
-            name: 'Products',
-        })
-    } else {
-        alert('Добавьте хотя бы двух человек')
-    }
-}
 </script>
 
 <template>
@@ -45,16 +34,47 @@ const nextPage = () => {
                     <Input
                         label="Введите позицию"
                         v-model="value"
-                        v-on:keydown.enter="" />
+                        v-on:keydown.enter="clickHandler" />
                 </v-responsive>
                 <Button
-                    @click=""
+                    @click="clickHandler"
                     prepend-icon="mdi-plus-circle-outline">
                     <v-icon v-slot:prepend></v-icon>
                     Нажмите, чтобы добавить позицию
                 </Button>
             </v-container>
+            <v-card>
+                <v-list
+                    :items="ProductsStore.list"
+                    item-title="name">
+                    <v-list-item
+                        v-for="item in ProductsStore.list"
+                        :key="item.id">
+                        <v-avatar
+                            color="primary"
+                            class="mr-4">
+                            {{ item.name[0] }}
+                        </v-avatar>
+                        {{ item.name }}
+                        <!-- <template v-slot:append>
+                            <v-btn
+                                fab="true"
+                                small
+                                density="default"
+                                color="primary"
+                                icon="mdi-minus"
+                                @click="PeopleStore.delete(item.id)">
+                            </v-btn>
+                        </template>
+                        <v-divider
+                            class="my-2"
+                            thickness /> -->
+                    </v-list-item>
+                </v-list>
             </v-card>
+            </v-card>
+
+            
     </v-app>
 </template>
 
