@@ -39,5 +39,12 @@ export const useProductsStore = defineStore('ProductsStore', {
         delete(id) {
             this.list = this.list.filter((item) => item.id !== id)
         },
+
+        sum() {
+            let sum = this.list.reduce(function (accumulator, currentValue) {
+                return Number(accumulator) + Number(currentValue.price)
+            }, 0);
+            return sum
+        },
     },
 })
