@@ -7,7 +7,7 @@ export const usePeopleStore = defineStore('PeopleStore', {
 
     actions: {
         add(name) {
-            if (name.replaceAll(' ', '') !== '') {
+            if ((name != null) && (name.replaceAll(' ', '') !== '')) {
                 this.list = [
                     ...this.list,
                     {
