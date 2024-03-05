@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-import { useProductsStore } from '../../stores/ProductsStore';
+import { useProductStore } from '../../stores/ProductStore';
 
 const props = defineProps(['person', 'product'])
 const checked = ref(props.product.whoAte)
-const ProductStore = useProductsStore()
+const ProductStore = useProductStore()
 
 </script>
 
@@ -27,8 +27,8 @@ const ProductStore = useProductsStore()
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     border-radius: 10px;
+    margin-top: 12px;
     padding: 12px;
     min-width: 150px;
 }
