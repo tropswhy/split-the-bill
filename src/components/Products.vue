@@ -123,6 +123,12 @@ const selectHandler = (selected, prodId) => {
             width="300">
             Промежуточный итог: {{ ProductStore.sum() }}
         </v-card>
+        <NextButton
+            v-if="ProductStore.list.length > 1"
+            @click.prevent="$router.push(`/result`)"
+        >
+        К результатам!
+        </NextButton>
     </v-app>
 </template>
 
