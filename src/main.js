@@ -7,6 +7,7 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import Main from './Main.vue'
 import Products from './components/Products.vue'
+import Result from './components/Result.vue'
 import App from './App.vue'
 import '@mdi/font/css/materialdesignicons.css'
 
@@ -26,7 +27,11 @@ const routes = [
     {
         path: '/products',
         component: Products,
-    }
+    },
+    {
+        path: '/result',
+        component: Result,
+    },
 ]
 const router = createRouter({
     history: createWebHistory(),
