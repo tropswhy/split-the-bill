@@ -94,7 +94,7 @@ const selectHandler = (selected, prodId) => {
                                         (value) =>
                                             selectHandler(value, product.id)" 
                                 />
-                            <p class="text-center">Выберите тех, кто ел</p>
+                            <p class="text-center">Выберите тех, кто ел или пил</p>
                             <v-layout
                                 class="overflow-x-auto layout"
                                 d-flex
