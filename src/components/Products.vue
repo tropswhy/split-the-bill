@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import PersonCard from './ui/PersonCard.vue'
+import PersonCard from '../components/PersonCard.vue'
 import { useProductStore } from '../stores/ProductStore.js'
 import { usePersonStore } from '../stores/PersonStore.js'
 
@@ -143,4 +143,4 @@ const selectHandler = (selected, prodId) => {
     max-width: 450px;
     overflow: auto;
 }
-</style>./PersonCard.vue/index.js
+</style>

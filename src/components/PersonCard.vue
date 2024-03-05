@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useProductStore } from '../../stores/ProductStore';
+import { useProductStore } from '../stores/ProductStore';
 
 const props = defineProps(['person', 'product'])
 const checked = ref(props.product.whoAte)
