@@ -143,4 +143,4 @@ const selectHandler = (selected, prodId) => {
     max-width: 450px;
     overflow: auto;
 }
-</style>
+</style>./PersonCard.vue/index.js

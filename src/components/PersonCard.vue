@@ -32,4 +32,4 @@ const ProductStore = useProductStore()
     padding: 12px;
     min-width: 150px;
 }
-</style>
+</style>../stores/ProductStore
