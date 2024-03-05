@@ -10,26 +10,31 @@ export const useProductsStore = defineStore('ProductsStore', {
                 name: 'Водка',
                 price: '500',
                 payerId: 15645667,
-                whoAte: [{1: false}, {2: true}, {3: false}, {4: true}, {5: false},],
+                whoAte: {1: false, 2: false, 3: false, 4: false, 5: false},
             },
             {
                 id: 2,
                 name: 'Пиво',
                 price: '150',
                 payerId: 2,
-                whoAte: [{1: false}, {2: false}, {3: true}, {4: true}, {5: false},],
+                whoAte: {1: false, 2: false, 3: false, 4: false, 5: false},
             },
             {
                 id: 3,
                 name: 'Сигареты',
                 price: '230',
                 payerId: 3,
-                whoAte: [{1: true}, {2: true}, {3: false}, {4: true}, {5: false},],
+                whoAte: {1: false, 2: false, 3: false, 4: false, 5: false},
             },
         ],
     }),
     actions: {
-        addProd(name, price) {
+        addProd(name, price, personIds) {
+            let checks = {}
+            personIds.map((personId) => {
+                checks[personId] = false
+            })
+
             if (
                 name != null &&
                 name.replaceAll(' ', '') !== '' &&
@@ -47,6 +52,10 @@ export const useProductsStore = defineStore('ProductsStore', {
                         },
                     
                 ]
+                this.list.at(-1).whoAte = {
+                    ...this.list.at(-1).whoAte,
+                    ...checks,
+                }
             } else {
                 alert(
                     'Вы оставили поле ввода пустым. Пожалуйста, введите позицию.'
@@ -79,12 +88,9 @@ export const useProductsStore = defineStore('ProductsStore', {
             this.findById(prodId)['payerId'] = payerId
         },
     
-        updateWhoAteId(productId, personId){
-            this.findById(productId).whoAte[personId] = !product.whoAte[personId] 
-            this.list.map((product) => {
-                if (product.id === productId) {
-                }
-            })
+        updateWhoAteId(productId, personId, condition){
+            let product =  this.findById(productId)
+            product.whoAte[personId] = condition
         }
     },
 })
