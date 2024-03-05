@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-
+import PersonCard from './ui/PersonCard.vue'
 import { useProductsStore } from '../stores/ProductsStore.js'
 import { usePeopleStore } from '../stores/PeopleStore.js'
 
@@ -10,6 +10,11 @@ import Button from './ui/Button.vue'
 
 const name = ref('')
 const price = ref('')
+/* const payerId = ref() */
+const noSelect = {
+    id: 0,
+    name: 'Плательщик',
+}
 
 const ProductsStore = useProductsStore()
 const PeopleStore = usePeopleStore()
@@ -18,6 +23,13 @@ const clickHandler = () => {
     ProductsStore.addProd(name.value, price.value)
     name.value = ''
     price.value = ''
+    /*     console.log(name, price, payerId) */
+    /* payerId.value = '' */
+}
+
+const selectHandler = (selected, prodId) => {
+    console.log(prodId)
+    ProductsStore.addPayerId(selected, prodId)
 }
 </script>
 
@@ -35,6 +47,7 @@ const clickHandler = () => {
                     class="mx-auto"
                     width="600">
                     <Input
+                        width="600"
                         label="Введите позицию"
                         v-model="name"
                         v-on:keydown.enter="clickHandler" />
@@ -57,16 +70,10 @@ const clickHandler = () => {
                     :items="ProductsStore.list"
                     item-title="name">
                     <v-list-item
-                        v-for="item in ProductsStore.list"
-                        :key="item.id">
-                        <!-- <v-avatar
-                            color="primary"
-                            class="mr-4">
-                            {{ item.name[0] }}
-                        </v-avatar> -->
-                        {{ item.name }}
-                        <!-- <v-divider vertical inset class="mx-2" thickness/> -->
-                        {{ item.price + ' рублей' }}
+                        v-for="product in ProductsStore.list"
+                        :key="product.id">
+                        {{ product.name }}
+                        {{ product.price + ' рублей' }}
                         <template v-slot:append>
                             <v-btn
                                 fab="true"
@@ -74,26 +81,38 @@ const clickHandler = () => {
                                 density="default"
                                 color="primary"
                                 icon="mdi-minus"
-                                @click="ProductsStore.delete(item.id)">
+                                @click="ProductsStore.delete(product.id)">
                             </v-btn>
                         </template>
                         <v-card color="blue-lighten-5">
                             <v-select
+                                class="my-2"
                                 :items="PeopleStore.list"
                                 item-title="name"
-                                :key="item.id"
+                                item-value="id"
                                 density="comfortable"
-                                label="Плательщик" />
+                                variant="solo-filled"
+                                label="Плательщик"
+                                single-line
+                                @update:modelValue="
+                                    (value) => selectHandler(value, product.id)
+                                " />
                             Выберите тех, кто ел
-                            <v-layout d-flex align-center justify-center row fill-height>
-                                    <v-checkbox
-                                        :items="PeopleStore.list"
-                                        item-title="name"
-                                        :key="item.id"
-                                        v-for="item in PeopleStore.list"
-                                        density="comfortable"
-                                        :label="`${item.name}`" 
-                                    />
+                            <v-layout
+                                class="overflow-x-auto layout"
+                                d-flex
+                                align-center
+                                justify-center
+                                row
+                                fill-height>
+                                <div v-for="person in PeopleStore.list">
+                                    <PersonCard
+                                        :name="person.name"
+                                        />
+                                        <!-- :checked="
+                                            product.whoAte.includes(person.id)
+                                        "  -->
+                                </div>
                             </v-layout>
                         </v-card>
                         <v-divider
@@ -112,4 +131,15 @@ const clickHandler = () => {
     </v-app>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout {
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    max-width: 450px;
+    overflow: auto;
+}
+</style>
