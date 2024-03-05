@@ -19,8 +19,10 @@ const noSelect = {
 const ProductsStore = useProductsStore()
 const PeopleStore = usePeopleStore()
 
+const personIds = PeopleStore.list.reduce((accum, item) => [...accum, item.id], [])
+
 const clickHandler = () => {
-    ProductsStore.addProd(name.value, price.value)
+    ProductsStore.addProd(name.value, price.value, personIds)
     name.value = ''
     price.value = ''
     /*     console.log(name, price, payerId) */
@@ -28,7 +30,6 @@ const clickHandler = () => {
 }
 
 const selectHandler = (selected, prodId) => {
-    console.log(prodId)
     ProductsStore.addPayerId(selected, prodId)
 }
 </script>
@@ -107,7 +108,8 @@ const selectHandler = (selected, prodId) => {
                                 fill-height>
                                 <div v-for="person in PeopleStore.list">
                                     <PersonCard
-                                        :name="person.name"
+                                        :person="person"
+                                        :product="product"
                                         />
                                         <!-- :checked="
                                             product.whoAte.includes(person.id)
