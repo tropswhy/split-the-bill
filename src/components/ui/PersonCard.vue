@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { useProductsStore } from '../../stores/ProductsStore';
 
-const props = defineProps(['name', 'checked'])
-const checked = ref(props.checked)
+const props = defineProps(['person', 'product'])
+const checked = ref(props.product.whoAte)
+const ProductStore = useProductsStore()
+
 </script>
 
 <template>
@@ -10,10 +13,10 @@ const checked = ref(props.checked)
         <v-checkbox
             v-model="checked"
             density="comfortable"
-            @update:modelValue=""
+            @update:modelValue="ProductStore.updateWhoAteId(product.id, person.id, checked)"
             />
         <p>
-            {{ `${name.slice(0, 10)}${name.length > 9 ? '...' : ''}` }}
+            {{ `${person.name.slice(0, 10)}${person.name.length > 9 ? '...' : ''}` }}
         </p>
     </div>
 </template>
