@@ -1,36 +1,34 @@
 <script setup>
 import { ref } from 'vue'
 import PersonCard from './ui/PersonCard.vue'
-import { useProductsStore } from '../stores/ProductsStore.js'
-import { usePeopleStore } from '../stores/PeopleStore.js'
+import { useProductStore } from '../stores/ProductStore.js'
+import { usePersonStore } from '../stores/PersonStore.js'
 
 import AppBar from '../components/ui/AppBar.vue'
 import Input from './ui/Input.vue'
-import Button from './ui/Button.vue'
+import AddButton from './ui/AddButton.vue'
+import NextButton from './ui/NextButton.vue'
+
 
 const name = ref('')
 const price = ref('')
-/* const payerId = ref() */
-const noSelect = {
-    id: 0,
-    name: 'Плательщик',
-}
 
-const ProductsStore = useProductsStore()
-const PeopleStore = usePeopleStore()
+const ProductStore = useProductStore()
+const PersonStore = usePersonStore()
 
-const personIds = PeopleStore.list.reduce((accum, item) => [...accum, item.id], [])
+const personIds = PersonStore.list.reduce(
+    (accum, item) => [...accum, item.id],
+    []
+)
 
 const clickHandler = () => {
-    ProductsStore.addProd(name.value, price.value, personIds)
+    ProductStore.addProd(name.value, price.value, personIds)
     name.value = ''
     price.value = ''
-    /*     console.log(name, price, payerId) */
-    /* payerId.value = '' */
 }
 
 const selectHandler = (selected, prodId) => {
-    ProductsStore.addPayerId(selected, prodId)
+    ProductStore.addPayerId(selected, prodId)
 }
 </script>
 
@@ -41,17 +39,13 @@ const selectHandler = (selected, prodId) => {
             color="blue-lighten-5"
             class="mx-auto"
             max-width="600">
-            <v-container
-                class="text-center"
-                max-width="100">
+            <v-container class="text-center"> 
                 <v-responsive
                     class="mx-auto"
                     width="600">
                     <Input
-                        width="600"
                         label="Введите позицию"
-                        v-model="name"
-                        v-on:keydown.enter="clickHandler" />
+                        v-model="name" />
                     <Input
                         type="number"
                         v-model="price"
@@ -59,19 +53,18 @@ const selectHandler = (selected, prodId) => {
                         prefix="₽"
                         v-on:keydown.enter="clickHandler" />
                 </v-responsive>
-                <Button
-                    @click="clickHandler"
-                    prepend-icon="mdi-plus-circle-outline">
-                    <v-icon v-slot:prepend></v-icon>
+                <AddButton @click="clickHandler">
                     Нажмите, чтобы добавить позицию
-                </Button>
+                </AddButton>
             </v-container>
-            <v-card>
+            <v-card 
+            class="overflow-y-auto"
+            max-height="350">
                 <v-list
-                    :items="ProductsStore.list"
+                    :items="ProductStore.list"
                     item-title="name">
                     <v-list-item
-                        v-for="product in ProductsStore.list"
+                        v-for="product in ProductStore.list"
                         :key="product.id">
                         {{ product.name }}
                         {{ product.price + ' рублей' }}
@@ -82,23 +75,26 @@ const selectHandler = (selected, prodId) => {
                                 density="default"
                                 color="primary"
                                 icon="mdi-minus"
-                                @click="ProductsStore.delete(product.id)">
+                                @click="ProductStore.delete(product.id)">
                             </v-btn>
                         </template>
                         <v-card color="blue-lighten-5">
-                            <v-select
-                                class="my-2"
-                                :items="PeopleStore.list"
-                                item-title="name"
-                                item-value="id"
-                                density="comfortable"
-                                variant="solo-filled"
-                                label="Плательщик"
-                                single-line
-                                @update:modelValue="
-                                    (value) => selectHandler(value, product.id)
-                                " />
-                            Выберите тех, кто ел
+                            <v-container>
+                                <v-select
+                                    width="300px"
+                                    class="my-2"
+                                    :items="PersonStore.list"
+                                    item-title="name"
+                                    item-value="id"
+                                    density="comfortable"
+                                    variant="solo-filled"
+                                    label="Плательщик"
+                                    single-line
+                                    @update:modelValue="
+                                        (value) =>
+                                            selectHandler(value, product.id)" 
+                                />
+                            <p class="text-center">Выберите тех, кто ел</p>
                             <v-layout
                                 class="overflow-x-auto layout"
                                 d-flex
@@ -106,16 +102,13 @@ const selectHandler = (selected, prodId) => {
                                 justify-center
                                 row
                                 fill-height>
-                                <div v-for="person in PeopleStore.list">
+                                <div v-for="person in PersonStore.list">
                                     <PersonCard
                                         :person="person"
-                                        :product="product"
-                                        />
-                                        <!-- :checked="
-                                            product.whoAte.includes(person.id)
-                                        "  -->
+                                        :product="product" />
                                 </div>
                             </v-layout>
+                        </v-container>
                         </v-card>
                         <v-divider
                             class="my-2"
@@ -128,7 +121,7 @@ const selectHandler = (selected, prodId) => {
             color="blue-lighten-5"
             class="mx-auto my-5 text-center"
             width="300">
-            Промежуточный итог: {{ ProductsStore.sum() }}
+            Промежуточный итог: {{ ProductStore.sum() }}
         </v-card>
     </v-app>
 </template>

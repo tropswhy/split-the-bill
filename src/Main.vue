@@ -1,16 +1,18 @@
 <script setup>
 import { ref } from 'vue'
-import { usePeopleStore } from './stores/PeopleStore.js'
+import { usePersonStore } from './stores/PersonStore.js'
 import Input from './components/ui/Input.vue'
-import Button from './components/ui/Button.vue'
+import AddButton from './components/ui/AddButton.vue'
 import AppBar from './components/ui/AppBar.vue'
+import NextButton from './components/ui/NextButton.vue'
+
 
 const value = ref('')
 
-const PeopleStore = usePeopleStore()
+const PersonStore = usePersonStore()
 
 const clickHandler = () => {
-    PeopleStore.add(value.value)
+    PersonStore.add(value.value)
     value.value = ''
 }
 
@@ -34,19 +36,19 @@ const clickHandler = () => {
                         v-model="value"
                         v-on:keydown.enter="clickHandler" />
                 </v-responsive>
-                <Button
-                    @click="clickHandler"
-                    prepend-icon="mdi-plus-circle-outline">
-                    <v-icon v-slot:prepend></v-icon>
+                <AddButton
+                    @click="clickHandler">
                     Нажмите, чтобы добавить человека
-                </Button>
+                </AddButton>
             </v-container>
-            <v-card>
+            <v-card 
+            class="overflow-y-auto"
+            max-height="400">
                 <v-list
-                    :items="PeopleStore.list"
+                    :items="PersonStore.list"
                     item-title="name">
                     <v-list-item
-                        v-for="item in PeopleStore.list"
+                        v-for="item in PersonStore.list"
                         :key="item.id">
                         <v-avatar
                             color="primary"
@@ -61,7 +63,7 @@ const clickHandler = () => {
                                 density="default"
                                 color="primary"
                                 icon="mdi-minus"
-                                @click="PeopleStore.delete(item.id)">
+                                @click="PersonStore.delete(item.id)">
                             </v-btn>
                         </template>
                         <v-divider
@@ -71,16 +73,12 @@ const clickHandler = () => {
                 </v-list>
             </v-card>
         </v-card>
-        <Button
-            v-if="PeopleStore.list.length > 1"
+        <NextButton
+            v-if="PersonStore.list.length > 1"
             @click.prevent="$router.push(`/products`)"
-            class="mx-auto mt-5"
-            width="350"
-            prepend-icon="mdi-arrow-right-thin-circle-outline"
             >
-            <!-- <v-icon></v-icon> -->
             Продолжить
-        </Button>
+        </NextButton>
         <v-container v-else>
             <v-alert
                 color="error"
