@@ -30,7 +30,16 @@ const clickHandler = () => {
 const selectHandler = (selected, prodId) => {
     ProductStore.addPayerId(selected, prodId)
 }
+
+const selectCheck = () => {
+    let flag = ProductStore.list.find((product) => {
+        return (product.payerId === -1)
+    })
+    return flag
+}
 </script>
+
+
 
 <template>
     <v-app>
@@ -124,7 +133,7 @@ const selectHandler = (selected, prodId) => {
             Промежуточный итог: {{ ProductStore.sum() }}
         </v-card>
         <NextButton
-            v-if="ProductStore.list.length > 1"
+            v-if="((ProductStore.list.length > 1) && (selectCheck() === undefined)) "
             @click.prevent="$router.push(`/result`)"
         >
         К результатам!
