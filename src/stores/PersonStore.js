@@ -3,11 +3,11 @@ import { defineStore } from 'pinia'
 export const usePersonStore = defineStore('PersonStore', {
     state: () => ({
         list: [
-            { id: 1, name: 'Сергей' },
+            /* { id: 1, name: 'Сергей' },
             { id: 2, name: 'Толян' },
             { id: 3, name: 'Михалыч' },
             { id: 4, name: 'Лёха Хомяков' },
-            { id: 5, name: 'Пророк Санбой' },
+            { id: 5, name: 'Пророк Санбой' }, */
         ],
     }),
 
